@@ -55,10 +55,10 @@
                                 <color key="tintColor" red="0.0" green="0.45882352939999999" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                <connections>
+                                    <action selector="addActionPressed:" destination="87E-XW-dUz" eventType="touchUpInside" id="mR9-l1-q8i"/>
+                                </connections>
                             </button>
-                            <connections>
-                                <action selector="addActionPressed:" destination="87E-XW-dUz" id="3C3-ET-wGn"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
