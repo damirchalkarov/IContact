@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB0364742CF4DE0200F34365 /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB0364732CF4DE0200F34365 /* ContactTableViewCell.xib */; };
+		EB0364752CF4DE0200F34365 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0364722CF4DE0200F34365 /* ContactTableViewCell.swift */; };
 		EB3528922CF2454100D2F004 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3528912CF2454100D2F004 /* ContactsViewController.swift */; };
-		EB3528952CF245AE00D2F004 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3528932CF245AE00D2F004 /* ContactsTableViewCell.swift */; };
-		EB3528962CF245AE00D2F004 /* ContactsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB3528942CF245AE00D2F004 /* ContactsTableViewCell.xib */; };
 		EB687F362CF0DF2B00F45A08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB687F352CF0DF2B00F45A08 /* AppDelegate.swift */; };
 		EB687F382CF0DF2B00F45A08 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB687F372CF0DF2B00F45A08 /* SceneDelegate.swift */; };
 		EB687F3A2CF0DF2B00F45A08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB687F392CF0DF2B00F45A08 /* ViewController.swift */; };
@@ -19,9 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EB0364722CF4DE0200F34365 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		EB0364732CF4DE0200F34365 /* ContactTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
 		EB3528912CF2454100D2F004 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
-		EB3528932CF245AE00D2F004 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
-		EB3528942CF245AE00D2F004 /* ContactsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactsTableViewCell.xib; sourceTree = "<group>"; };
 		EB687F322CF0DF2B00F45A08 /* IContact.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IContact.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB687F352CF0DF2B00F45A08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB687F372CF0DF2B00F45A08 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +43,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB0364712CF4DDDA00F34365 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				EB0364722CF4DE0200F34365 /* ContactTableViewCell.swift */,
+				EB0364732CF4DE0200F34365 /* ContactTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		EB687F292CF0DF2B00F45A08 = {
 			isa = PBXGroup;
 			children = (
@@ -72,11 +81,10 @@
 		EB687F492CF0E2C600F45A08 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				EB0364712CF4DDDA00F34365 /* Cell */,
 				EB687F3B2CF0DF2B00F45A08 /* Main.storyboard */,
 				EB687F392CF0DF2B00F45A08 /* ViewController.swift */,
 				EB3528912CF2454100D2F004 /* ContactsViewController.swift */,
-				EB3528932CF245AE00D2F004 /* ContactsTableViewCell.swift */,
-				EB3528942CF245AE00D2F004 /* ContactsTableViewCell.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -158,9 +166,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB3528962CF245AE00D2F004 /* ContactsTableViewCell.xib in Resources */,
 				EB687F3F2CF0DF2D00F45A08 /* Assets.xcassets in Resources */,
 				EB687F422CF0DF2D00F45A08 /* Base in Resources */,
+				EB0364742CF4DE0200F34365 /* ContactTableViewCell.xib in Resources */,
 				EB687F3D2CF0DF2B00F45A08 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,9 +180,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB0364752CF4DE0200F34365 /* ContactTableViewCell.swift in Sources */,
 				EB687F3A2CF0DF2B00F45A08 /* ViewController.swift in Sources */,
 				EB3528922CF2454100D2F004 /* ContactsViewController.swift in Sources */,
-				EB3528952CF245AE00D2F004 /* ContactsTableViewCell.swift in Sources */,
 				EB687F362CF0DF2B00F45A08 /* AppDelegate.swift in Sources */,
 				EB687F382CF0DF2B00F45A08 /* SceneDelegate.swift in Sources */,
 			);

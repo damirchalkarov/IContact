@@ -7,19 +7,32 @@
 
 import UIKit
 
-class ContactsViewController: UIViewController {
+class ContactsViewController: UIViewController, UITableViewDataSource {
     
-    @IBOutlet weak var textLabel: UILabel!
+    
+    @IBOutlet weak var tableView: UITableView!
     
     var number: Int = 123
     
     static let contactKey: String = "contact"
     
+    var contactsArrayOfDictionaries: [[String: Any]] = [] {
+        didSet {
+            print("value of variable 'contactsArrayOfDictionaries' was changed") //обновляем таблицу при переопределении переменной
+            tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.register(UINib(nibName: "ContactTableViewCell", bundle: nil), forCellReuseIdentifier: ContactTableViewCell.identifier) //регистрация таблицы и ячейки с идентификатором
+        tableView.dataSource = self
+        
         getContact()
+        
     }
+    
     
     @IBAction func addActionPressed(_ sender: Any) {
         askForInfo()
@@ -117,15 +130,23 @@ class ContactsViewController: UIViewController {
         
         print(contact, "contactsArrayOfDictionaries: \(contactsArrayOfDictionaries)")
         
-        var text: String = ""
+        self.contactsArrayOfDictionaries = contactsArrayOfDictionaries
         
-        contactsArrayOfDictionaries.forEach { dictionary in //перебираем массив и извлекаем name
-            if let name = dictionary["name"] as? String {
-                text += "\(name) \n"
-            }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //первый обязательный метол UITableView
+        return contactsArrayOfDictionaries.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { //второй обязательный метол UITableView
+        let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.identifier, for: indexPath) as! ContactTableViewCell
+   
+        let dictionary: [String: Any] = contactsArrayOfDictionaries[indexPath.row] //создание словаря
+        if let name = dictionary["name"] as? String {
+            cell.contactTextLabel.text = "\(name)"  //извлекаем ключ, так как нам нужен только ключ на данный момент, без значения
         }
         
-        textLabel.text = text
+        return cell
     }
    
 
