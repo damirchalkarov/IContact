@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ContactsViewController: UIViewController, UITableViewDataSource {
+class ContactsViewController: UIViewController {
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -28,6 +28,7 @@ class ContactsViewController: UIViewController, UITableViewDataSource {
         
         tableView.register(UINib(nibName: "ContactTableViewCell", bundle: nil), forCellReuseIdentifier: ContactTableViewCell.identifier) //регистрация таблицы и ячейки с идентификатором
         tableView.dataSource = self
+        tableView.delegate = self
         
         getContact()
         
@@ -103,6 +104,8 @@ class ContactsViewController: UIViewController, UITableViewDataSource {
         let contactArray: [[String: Any]] = getContactsArray() + [contact] //создание массива, который хранит в себе словари
         let userDefaults = UserDefaults.standard // создание хранилища
         userDefaults.set(contactArray, forKey: ContactsViewController.contactKey) //запись в словарь
+        
+        getContact()
     }
     
     //2
@@ -134,6 +137,13 @@ class ContactsViewController: UIViewController, UITableViewDataSource {
         
     }
     
+
+}
+
+
+//логика таблицы
+extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //первый обязательный метол UITableView
         return contactsArrayOfDictionaries.count
     }
@@ -148,6 +158,10 @@ class ContactsViewController: UIViewController, UITableViewDataSource {
         
         return cell
     }
-   
-
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
 }
