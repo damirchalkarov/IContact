@@ -12,7 +12,9 @@ class ContactsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var number: Int = 123
+    @IBOutlet weak var SegmentedControl: UISegmentedControl!
+    
+    var number: Int = 0
     
     let fullAlphabet: [Character] = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
     
@@ -20,7 +22,7 @@ class ContactsViewController: UIViewController {
     
     var dataSource: [[ContactRecord]] = [] {
         didSet {
-            print("value of variable 'dataSource' was changed") //обновляем таблицу при переопределении переменной
+//            print("value of variable 'dataSource' was changed") //обновляем таблицу при переопределении переменной
             tableView.reloadData()
         }
     }
@@ -35,7 +37,35 @@ class ContactsViewController: UIViewController {
         getContact()
         
     }
-    
+    @IBAction func choiceSegment(_ sender: UISegmentedControl) {
+        let selectedIndex = sender.selectedSegmentIndex
+        
+        if selectedIndex == 1 {
+            // Меняем местами имя и фамилию
+            dataSource = dataSource.map { section in
+                section.map { contact in
+                    print(contact)
+                    let components = contact.name.split(separator: " ")
+                    print(components)
+                    if components.count == 2 {
+                        let reversedName = "\(components[1]) \(components[0])"
+                        return ContactRecord(name: reversedName, number: contact.number)
+                    }
+                    return contact
+                }
+            }
+            
+            // Пересортировываем dataSource по фамилии
+            dataSource = sortContactsByFirstLetter(of: .surname, contacts: dataSource.flatMap { $0 })
+            
+        } else {
+            // Возвращаем к сортировке по имени
+            getContact()
+        }
+        
+        tableView.reloadData() // Обновляем таблицу
+    }
+
     
     @IBAction func addActionPressed(_ sender: Any) {
         askForInfo()
@@ -81,9 +111,6 @@ class ContactsViewController: UIViewController {
             
             let fullName = "\(nameText) \(surNameText)" //объединение имени и фамилии
             
-//            print(fullName)
-            
-//            self.saveContact(name: fullName) // вызов функции и передача аргумента fullname
             self.saveContactRecordAsStruct(name: fullName)
             self.getContact()
             
@@ -99,74 +126,18 @@ class ContactsViewController: UIViewController {
         //показ окна добавления информации
     }
     
-    
-    //порядок работы функций
-    //1
-    func saveContact(name: String) {
-        let contact: [String: Any] = ["name": name, "number": number] //создание словаря
-        let contactArray: [[String: Any]] = getContactsArray() + [contact] //создание массива, который хранит в себе словари
-        let userDefaults = UserDefaults.standard // создание хранилища
-        userDefaults.set(contactArray, forKey: ContactsViewController.contactKey) //запись в словарь
-        
-        getContact()
-    }
-    
-    //2
-    func getContactsArray() -> [[String: Any]] {
-        let userDefaults = UserDefaults.standard
-        let array = userDefaults.array(forKey: ContactsViewController.contactKey) as? [[String: Any]]
-        return array ?? []
-        
-        //создания массива из данных с хранилища
-    }
-    
     //3
     func getContact() {
-//        let userDefaults = UserDefaults.standard //объявление хранилища
-//        guard let contact = userDefaults.array(forKey: ContactsViewController.contactKey) else {
-//            print("UserDefaults doesn't contain array with key : contact")
-//            return
-//        } //извлечение из хранилища данных
-//        
-//        guard let contactsArrayOfDictionaries = contact as? [[String: Any]] else {
-//            print("Couldn't convert [Any] to [[String: Any]]")
-//            return
-//            //безопасное создание массива
-//        }
-        
-//        print(contact, "contactsArrayOfDictionaries: \(contactsArrayOfDictionaries)")
-        
-//        self.contactsArrayOfDictionaries = getAllContactsRecords()
-        
-        let aContactList = getAllContactsRecords(letter: .a)
-        let bContactList = getAllContactsRecords(letter: .b)
-        let cContactList = getAllContactsRecords(letter: .c)
-        let dContactList = getAllContactsRecords(letter: .d)
-        let eContactList = getAllContactsRecords(letter: .e)
-        let fContactList = getAllContactsRecords(letter: .f)
-        let gContactList = getAllContactsRecords(letter: .g)
-        let hContactList = getAllContactsRecords(letter: .h)
-        let iContactList = getAllContactsRecords(letter: .i)
-        let jContactList = getAllContactsRecords(letter: .j)
-        let kContactList = getAllContactsRecords(letter: .k)
-        let lContactList = getAllContactsRecords(letter: .l)
-        let mContactList = getAllContactsRecords(letter: .m)
-        let nContactList = getAllContactsRecords(letter: .n)
-        let oContactList = getAllContactsRecords(letter: .o)
-        let pContactList = getAllContactsRecords(letter: .p)
-        let qContactList = getAllContactsRecords(letter: .q)
-        let rContactList = getAllContactsRecords(letter: .r)
-        let sContactList = getAllContactsRecords(letter: .s)
-        let tContactList = getAllContactsRecords(letter: .t)
-        let uContactList = getAllContactsRecords(letter: .u)
-        let vContactList = getAllContactsRecords(letter: .v)
-        let wContactList = getAllContactsRecords(letter: .w)
-        let xContactList = getAllContactsRecords(letter: .x)
-        let yContactList = getAllContactsRecords(letter: .y)
-        let zContactList = getAllContactsRecords(letter: .z)
-        
-        self.dataSource = [aContactList, bContactList, cContactList, dContactList, eContactList, fContactList, gContactList, hContactList, iContactList, jContactList, kContactList, lContactList, mContactList, nContactList, oContactList, pContactList, qContactList, rContactList, sContactList, tContactList, uContactList, vContactList, wContactList, xContactList, yContactList, zContactList]
-        
+            var newDataSource: [[ContactRecord]] = Array(repeating: [], count: Letter.allCases.count)
+            
+            for letter in Letter.allCases {
+                let sectionIndex = letter.index()
+                let contactList = getAllContactsRecords(letter: letter)
+//                print(contactList)
+                newDataSource[sectionIndex] = contactList
+            }
+            
+            self.dataSource = newDataSource
     }
     
     func saveContactRecordAsStruct(name: String) {
@@ -178,6 +149,8 @@ class ContactsViewController: UIViewController {
             print("Имя пустое или не начинается с буквы")
             return
         }
+        
+        print(firstLetter)
         
         switch firstLetter {
             case "a": letter = .a
@@ -279,40 +252,14 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-            case 0: return "A"
-            case 1: return "B"
-            case 2: return "C"
-            case 3: return "D"
-            case 4: return "E"
-            case 5: return "F"
-            case 6: return "G"
-            case 7: return "H"
-            case 8: return "I"
-            case 9: return "J"
-            case 10: return "K"
-            case 11: return "L"
-            case 12: return "M"
-            case 13: return "N"
-            case 14: return "O"
-            case 15: return "P"
-            case 16: return "Q"
-            case 17: return "R"
-            case 18: return "S"
-            case 19: return "T"
-            case 20: return "U"
-            case 21: return "V"
-            case 22: return "W"
-            case 23: return "X"
-            case 24: return "Y"
-            case 25: return "Z"
-            default: return "Invalid Input"
-        }
+        
+        guard let letter = Letter.allCases[safe: section] else {return nil}
+        
+        return letter.key().uppercased()
 
     }
     
 }
-
 
 struct ContactRecord: Codable {
     let name: String
@@ -320,62 +267,86 @@ struct ContactRecord: Codable {
 }
 
 enum Letter: CaseIterable {
-    case a
-    case b
-    case c
-    case d
-    case e
-    case f
-    case g
-    case h
-    case i
-    case j
-    case k
-    case l
-    case m
-    case n
-    case o
-    case p
-    case q
-    case r
-    case s
-    case t
-    case u
-    case v
-    case w
-    case x
-    case y
-    case z
+    case a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
     
     func key() -> String {
-        switch self {
-            case .a: "a"
-            case .b: "b"
-            case .c: "c"
-            case .d: "d"
-            case .e: "e"
-            case .f: "f"
-            case .g: "g"
-            case .h: "h"
-            case .i: "i"
-            case .j: "j"
-            case .k: "k"
-            case .l: "l"
-            case .m: "m"
-            case .n: "n"
-            case .o: "o"
-            case .p: "p"
-            case .q: "q"
-            case .r: "r"
-            case .s: "s"
-            case .t: "t"
-            case .u: "u"
-            case .v: "v"
-            case .w: "w"
-            case .x: "x"
-            case .y: "y"
-            case .z: "z"
+        return String(describing: self)
+    }
+    
+    func index() -> Int {
+        return Letter.allCases.firstIndex(of: self) ?? 0
+    }
+    
+    init?(rawValue: String) {
+        switch rawValue {
+        case "a": self = .a
+        case "b": self = .b
+        case "c": self = .c
+        case "d": self = .d
+        case "e": self = .e
+        case "f": self = .f
+        case "g": self = .g
+        case "h": self = .h
+        case "i": self = .i
+        case "j": self = .j
+        case "k": self = .k
+        case "l": self = .l
+        case "m": self = .m
+        case "n": self = .n
+        case "o": self = .o
+        case "p": self = .p
+        case "q": self = .q
+        case "r": self = .r
+        case "s": self = .s
+        case "t": self = .t
+        case "u": self = .u
+        case "v": self = .v
+        case "w": self = .w
+        case "x": self = .x
+        case "y": self = .y
+        case "z": self = .z
+        default: return nil
         }
+    }
+}
+
+
+enum SortBy {
+    case name
+    case surname
+}
+
+func sortContactsByFirstLetter(of type: SortBy, contacts: [ContactRecord]) -> [[ContactRecord]] {
+    // Инициализируем пустой массив секций
+    var sortedSections: [[ContactRecord]] = Array(repeating: [], count: Letter.allCases.count)
+    
+    for contact in contacts {
+        // Выбираем имя или фамилию для сортировки
+        let keyText: String
+        if type == .surname {
+            // Разделяем имя и фамилию, если они существуют
+            let components = contact.name.split(separator: " ")
+            keyText = components.count == 2 ? String(components[0]) : contact.name // Фамилия
+        } else {
+            keyText = contact.name // Имя
+        }
+        
+        guard let firstChar = keyText.first?.lowercased(),
+              let letter = Letter(rawValue: firstChar) else {
+            continue
+        }
+        
+        let sectionIndex = letter.index()
+        sortedSections[sectionIndex].append(contact)
+    }
+    
+    return sortedSections
+}
+
+
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
 
