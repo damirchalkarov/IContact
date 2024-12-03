@@ -16,6 +16,8 @@ class ContactsViewController: UIViewController {
     
     var number: Int = 0
     
+    var isSortedBySurname: Bool = false
+    
     let fullAlphabet: [Character] = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
     
     static let contactKey: String = "contact"
@@ -41,12 +43,12 @@ class ContactsViewController: UIViewController {
         let selectedIndex = sender.selectedSegmentIndex
         
         if selectedIndex == 1 {
+            isSortedBySurname = true
+            
             // Меняем местами имя и фамилию
             dataSource = dataSource.map { section in
                 section.map { contact in
-                    print(contact)
                     let components = contact.name.split(separator: " ")
-                    print(components)
                     if components.count == 2 {
                         let reversedName = "\(components[1]) \(components[0])"
                         return ContactRecord(name: reversedName, number: contact.number)
@@ -59,12 +61,14 @@ class ContactsViewController: UIViewController {
             dataSource = sortContactsByFirstLetter(of: .surname, contacts: dataSource.flatMap { $0 })
             
         } else {
+            isSortedBySurname = false
             // Возвращаем к сортировке по имени
             getContact()
         }
         
         tableView.reloadData() // Обновляем таблицу
     }
+
 
     
     @IBAction func addActionPressed(_ sender: Any) {
@@ -221,8 +225,111 @@ class ContactsViewController: UIViewController {
         
         return result
     }
-}
+    
+    func removeContact(_ contact: ContactRecord, from tableView: UITableView, at indexPath: IndexPath) {
+        // Определяем, используется ли сортировка по фамилии
+        let originalName: String
+        if isSortedBySurname {
+            // Если сортировка по фамилии, меняем порядок обратно на "Имя Фамилия"
+            let components = contact.name.split(separator: " ")
+            if components.count == 2 {
+                originalName = "\(components[1]) \(components[0])"
+            } else {
+                originalName = contact.name
+            }
+        } else {
+            // Если сортировка по имени, используем текущий формат
+            originalName = contact.name
+        }
+        
+        // Получаем первую букву из оригинального имени
+        guard let firstLetter = originalName.first?.lowercased(),
+              let letter = Letter(rawValue: firstLetter) else {
+            print("Ошибка: не удалось получить первую букву имени.")
+            return
+        }
 
+        // Получаем список контактов из UserDefaults для этой буквы
+        var contacts = getAllContactsRecords(letter: letter)
+
+        // Удаляем контакт из списка
+        if let index = contacts.firstIndex(where: { $0.name == originalName && $0.number == contact.number }) {
+            contacts.remove(at: index)
+
+            // Сохраняем обновленный список в UserDefaults
+            do {
+                let encoder = JSONEncoder()
+                let encodedData = try encoder.encode(contacts)
+                let userDefaults = UserDefaults.standard
+                userDefaults.setValue(encodedData, forKey: letter.key())
+            } catch {
+                print("Ошибка кодирования контактов: \(error.localizedDescription)")
+            }
+            
+            // Обновляем данные в dataSource
+            dataSource[indexPath.section].remove(at: indexPath.row)
+            
+            // Обновляем таблицу, удаляя только строку
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        } else {
+            print("Контакт не найден.")
+        }
+    }
+    
+    func getPhoneNumberText(indexPath: IndexPath) -> String? {
+        
+        let contactRecord: ContactRecord = dataSource[indexPath.section][indexPath.row]
+        let text = "\(contactRecord.number)"
+       
+        return text
+        
+    }
+
+    func getFullNameText(indexPath: IndexPath) -> String? {
+        
+        let contactRecord: ContactRecord = dataSource[indexPath.section][indexPath.row]
+        let text = "\(contactRecord.name)"
+        
+        if SegmentedControl.selectedSegmentIndex == 1 {
+            let components = text.split(separator: " ")
+            if components.count == 2 {
+                let name = "\(components[1]) \(components[0])"
+                return name
+            }
+        }
+        return text
+        
+    }
+    
+    func getInitialsText(indexPath: IndexPath) -> String? {
+        var initials = ""
+        let contactRecord: ContactRecord = dataSource[indexPath.section][indexPath.row]
+        let text = "\(contactRecord.name)"
+        
+        
+        if SegmentedControl.selectedSegmentIndex == 1 {
+            let components = text.split(separator: " ")
+            if components.count == 2 {
+                let name = "\(components[1])\(components[0])"
+                for letter in name {
+                    if letter.isUppercase {
+                        initials += String(letter)
+                    }
+                }
+                return initials
+            }
+        }
+
+        for letter in text {
+            if letter.isUppercase {
+                initials += String(letter)
+            }
+        }
+        
+        return initials
+    }
+
+}
 
 //логика таблицы
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -231,7 +338,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         return dataSource.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //первый обязательный метол UITableView
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { //первый обязательный метод UITableView
         return dataSource[section].count
     }
     
@@ -246,10 +353,26 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+//        
+        if let navigationController = navigationController {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let viewController = storyboard.instantiateViewController(withIdentifier: "ViewController") as? ViewController {
+                navigationController.pushViewController(viewController, animated: true)
+                
+                viewController.fullNameText = getFullNameText(indexPath: indexPath)
+                viewController.initialsText = getInitialsText(indexPath: indexPath)
+                viewController.phoneNumberText = getPhoneNumberText(indexPath: indexPath)
+            } else {
+                print("Could not instantiate ViewController")
+            }
+        } else {
+            print("navigationController is nil")
+        }
+        
     }
+
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
@@ -259,6 +382,17 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                // Удаляем контакт из источника данных
+                let contactToRemove = dataSource[indexPath.section][indexPath.row]
+                
+                // Удаляем контакт из UserDefaults и таблицы
+                tableView.beginUpdates()
+                removeContact(contactToRemove, from: tableView, at: indexPath)
+                tableView.endUpdates()
+            }
+        }
 }
 
 struct ContactRecord: Codable {
@@ -310,7 +444,6 @@ enum Letter: CaseIterable {
     }
 }
 
-
 enum SortBy {
     case name
     case surname
@@ -342,7 +475,6 @@ func sortContactsByFirstLetter(of type: SortBy, contacts: [ContactRecord]) -> [[
     
     return sortedSections
 }
-
 
 extension Array {
     subscript(safe index: Int) -> Element? {

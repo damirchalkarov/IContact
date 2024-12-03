@@ -21,6 +21,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var videoStackView: UIStackView!
     @IBOutlet weak var mailStackView: UIStackView!
     @IBOutlet weak var phoneStackView: UIStackView!
+    @IBOutlet weak var phoneNumberLabel: UILabel!
+    
+    
+    var fullNameText: String?
+    var initialsText: String?
+    var phoneNumberText: String?
     
     
 
@@ -42,6 +48,10 @@ class ViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         initialsContainerView.layer.cornerRadius = initialsContainerView.frame.height / 2
+        
+        fullNameLabel.text = fullNameText
+        initialsLabel.text = initialsText
+        phoneNumberLabel.text = phoneNumberText
     }
 
 

@@ -18,11 +18,12 @@
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RfN-AW-0rm">
                                 <rect key="frame" x="100" y="108" width="230" height="32"/>
+                                <color key="backgroundColor" red="0.93333333730000001" green="0.93333333730000001" blue="0.93333333730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <segments>
                                     <segment title="First"/>
                                     <segment title="Second"/>
                                 </segments>
-                                <color key="selectedSegmentTintColor" systemColor="tintColor"/>
+                                <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="choiceSegment:" destination="87E-XW-dUz" eventType="valueChanged" id="05L-Ay-poi"/>
                                 </connections>
@@ -70,13 +71,13 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="IContact" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="IContact" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="8XJ-zL-oou" userLabel="Main Stack View">
-                                <rect key="frame" x="16" y="59" width="398" height="439"/>
+                                <rect key="frame" x="16" y="109" width="398" height="439"/>
                                 <subviews>
                                     <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="GhB-OB-RhB">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="4"/>
@@ -264,7 +265,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="8XJ-zL-oou" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="A7V-Li-iZq"/>
+                            <constraint firstItem="8XJ-zL-oou" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="A7V-Li-iZq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8XJ-zL-oou" secondAttribute="trailing" constant="16" id="C6H-H8-PEt"/>
                             <constraint firstItem="8XJ-zL-oou" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Kvq-sF-hII"/>
                         </constraints>
@@ -272,12 +273,13 @@
                     <connections>
                         <outlet property="callStackView" destination="XmW-A1-4uC" id="iUb-fN-Ze1"/>
                         <outlet property="deleteContactButton" destination="yhM-XG-PHh" id="1WR-GT-hwg"/>
-                        <outlet property="fullNameLabel" destination="TaL-Ik-rje" id="tOM-jF-A3b"/>
+                        <outlet property="fullNameLabel" destination="gPX-HL-emd" id="kQa-Ta-jko"/>
                         <outlet property="initialsContainerView" destination="z1T-KH-7v3" id="xmH-1k-rDn"/>
                         <outlet property="initialsLabel" destination="TaL-Ik-rje" id="pLR-ig-opS"/>
                         <outlet property="mailStackView" destination="0VV-wp-auo" id="03m-Fz-WEn"/>
                         <outlet property="messageStackView" destination="dVE-ED-aiZ" id="cCq-KL-xLw"/>
                         <outlet property="phoneNumberButton" destination="Cd5-dM-ve9" id="BBh-HY-oD6"/>
+                        <outlet property="phoneNumberLabel" destination="owd-LM-Qjw" id="4js-nM-lyc"/>
                         <outlet property="phoneStackView" destination="3QY-lw-GlL" id="O2r-cz-zdD"/>
                         <outlet property="progressView" destination="GhB-OB-RhB" id="SXe-lY-VMO"/>
                         <outlet property="undoDeleteButton" destination="uwE-Jq-VwB" id="NPd-eN-WbU"/>
@@ -314,16 +316,13 @@
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="video.fill" catalog="system" width="128" height="81"/>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
