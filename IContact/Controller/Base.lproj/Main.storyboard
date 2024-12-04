@@ -18,12 +18,12 @@
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RfN-AW-0rm">
                                 <rect key="frame" x="100" y="108" width="230" height="32"/>
-                                <color key="backgroundColor" red="0.93333333730000001" green="0.93333333730000001" blue="0.93333333730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                 <segments>
                                     <segment title="First"/>
                                     <segment title="Second"/>
                                 </segments>
-                                <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="selectedSegmentTintColor" systemColor="systemGroupedBackgroundColor"/>
                                 <connections>
                                     <action selector="choiceSegment:" destination="87E-XW-dUz" eventType="valueChanged" id="05L-Ay-poi"/>
                                 </connections>
@@ -77,7 +77,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="8XJ-zL-oou" userLabel="Main Stack View">
-                                <rect key="frame" x="16" y="109" width="398" height="439"/>
+                                <rect key="frame" x="16" y="109.00000000000003" width="398" height="438.66666666666674"/>
                                 <subviews>
                                     <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="GhB-OB-RhB">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="4"/>
@@ -87,7 +87,7 @@
                                         <color key="progressTintColor" systemColor="systemRedColor"/>
                                     </progressView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="r9b-eU-UbZ" userLabel="Second Stack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="398" height="439"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="398" height="438.66666666666669"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6vU-Jz-b0r" userLabel="First View">
                                                 <rect key="frame" x="0.0" y="0.0" width="398" height="129"/>
@@ -120,8 +120,8 @@
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Surname" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPX-HL-emd">
                                                 <rect key="frame" x="0.0" y="153" width="398" height="25.333333333333343"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="21"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="pHG-Tg-JV5" userLabel="Third Stack View">
@@ -137,6 +137,9 @@
                                                                         <rect key="frame" x="10" y="10" width="72" height="34.333333333333336"/>
                                                                         <state key="normal" title="Button"/>
                                                                         <buttonConfiguration key="configuration" style="plain" image="message.fill" catalog="system"/>
+                                                                        <connections>
+                                                                            <action selector="sendSMSButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CJX-r8-7nw"/>
+                                                                        </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zwn-xc-LtW">
                                                                         <rect key="frame" x="10" y="44.333333333333371" width="72" height="20"/>
@@ -158,6 +161,9 @@
                                                                         <rect key="frame" x="10" y="10" width="72" height="34.333333333333336"/>
                                                                         <state key="normal" title="Button"/>
                                                                         <buttonConfiguration key="configuration" style="plain" image="phone.fill" catalog="system"/>
+                                                                        <connections>
+                                                                            <action selector="callPhoneNumber:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zEz-DZ-dnY"/>
+                                                                        </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yEW-We-RNM">
                                                                         <rect key="frame" x="10" y="44.333333333333371" width="72" height="20"/>
@@ -179,6 +185,9 @@
                                                                         <rect key="frame" x="10" y="10" width="72" height="34.333333333333336"/>
                                                                         <state key="normal" title="Button"/>
                                                                         <buttonConfiguration key="configuration" style="plain" image="video.fill" catalog="system"/>
+                                                                        <connections>
+                                                                            <action selector="startFaceTimeCall:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eO8-Tx-hQ0"/>
+                                                                        </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GK3-ab-DDh">
                                                                         <rect key="frame" x="10" y="44.333333333333371" width="72" height="20"/>
@@ -218,26 +227,33 @@
                                                     </stackView>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3QY-lw-GlL">
-                                                <rect key="frame" x="0.0" y="300.66666666666669" width="398" height="70.333333333333314"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="3QY-lw-GlL">
+                                                <rect key="frame" x="0.0" y="300.66666666666669" width="398" height="70"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="owd-LM-Qjw">
-                                                        <rect key="frame" x="10" y="9.9999999999999982" width="378" height="20.333333333333329"/>
+                                                        <rect key="frame" x="10.000000000000007" y="10" width="111.66666666666669" height="25"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cd5-dM-ve9">
-                                                        <rect key="frame" x="10" y="30.333333333333314" width="378" height="30"/>
+                                                        <rect key="frame" x="10" y="35" width="54" height="25"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="Button"/>
+                                                        <connections>
+                                                            <action selector="callPhoneNumber:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Qne-hn-3xW"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="aac-H7-OUr"/>
+                                                </constraints>
                                                 <edgeInsets key="layoutMargins" top="10" left="10" bottom="10" right="10"/>
                                             </stackView>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwE-Jq-VwB">
-                                                <rect key="frame" x="0.0" y="383" width="398" height="44"/>
+                                                <rect key="frame" x="0.0" y="382.66666666666669" width="398" height="44"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="ZIB-2i-YeS"/>
@@ -246,11 +262,12 @@
                                                 <state key="normal" title="Undo delete"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhM-XG-PHh">
-                                                <rect key="frame" x="0.0" y="395" width="398" height="44"/>
+                                                <rect key="frame" x="0.0" y="394.66666666666669" width="398" height="44"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="wf4-Oj-vwV"/>
                                                 </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Delete this contact">
                                                     <color key="titleColor" systemColor="systemRedColor"/>
@@ -259,8 +276,15 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.025682777980000002" green="0.94599600250000004" blue="0.73337931209999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frE-wR-e2X">
+                                <rect key="frame" x="350.66666666666669" y="59" width="53.333333333333314" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Edit"/>
+                                <connections>
+                                    <action selector="editActionPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nWe-kS-EUp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -268,6 +292,8 @@
                             <constraint firstItem="8XJ-zL-oou" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="A7V-Li-iZq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8XJ-zL-oou" secondAttribute="trailing" constant="16" id="C6H-H8-PEt"/>
                             <constraint firstItem="8XJ-zL-oou" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Kvq-sF-hII"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="frE-wR-e2X" secondAttribute="trailing" constant="26" id="WFY-bv-f3r"/>
+                            <constraint firstItem="frE-wR-e2X" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="cwl-aH-81u"/>
                         </constraints>
                     </view>
                     <connections>
@@ -320,6 +346,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

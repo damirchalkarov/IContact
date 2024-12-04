@@ -51,9 +51,63 @@ class ViewController: UIViewController {
         
         fullNameLabel.text = fullNameText
         initialsLabel.text = initialsText
-        phoneNumberLabel.text = phoneNumberText
+        phoneNumberButton.setTitle(phoneNumberText, for: .normal)
     }
+    
+    @IBAction func callPhoneNumber(_ sender: UIButton) {
+        // Убедимся, что номер телефона существует
+        guard let phoneNumber = phoneNumberText else {
+            print("Номер телефона отсутствует")
+            return
+        }
 
+        // Формируем URL для звонка
+        let phoneURL = "tel://\(phoneNumber)"
+        if let url = URL(string: phoneURL) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                print("Не удалось открыть URL для звонка. Возможно, это устройство не поддерживает звонки.")
+            }
+        }
+    }
+    
+    @IBAction func sendSMSButtonTapped(_ sender: UIButton) {
+        guard let phoneNumber = phoneNumberText else {
+            print("Номер телефона отсутствует")
+            return
+        }
+
+        let smsURL = "sms:\(phoneNumber)"
+        if let url = URL(string: smsURL) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                print("Не удалось открыть приложение для отправки SMS. Устройство не поддерживает отправку сообщений.")
+            }
+        }
+    }
+    
+    @IBAction func startFaceTimeCall(_ sender: UIButton) {
+        guard let phoneNumber = phoneNumberText else {
+            print("Номер телефона отсутствует")
+            return
+        }
+        
+        let facetimeURL = "facetime://\(phoneNumber)"
+        if let url = URL(string: facetimeURL) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                print("Не удалось открыть FaceTime. Устройство не поддерживает FaceTime.")
+            }
+        }
+    }
+    
+    
+    @IBAction func editActionPressed(_ sender: Any) {
+    }
+    
 
 }
 

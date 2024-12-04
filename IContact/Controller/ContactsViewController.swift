@@ -90,7 +90,7 @@ class ContactsViewController: UIViewController {
         let saveAction = UIAlertAction(title: "Add", style: .default) { _ in
             
             guard let nameField = alertController.textFields?[0] else {
-                return //безопасное извлечение имени
+                return 
             }
             
             guard let surnameField = alertController.textFields?[1] else {
