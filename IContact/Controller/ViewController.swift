@@ -28,10 +28,20 @@ class ViewController: UIViewController {
     var initialsText: String?
     var phoneNumberText: String?
     
+    var selectedContact: (name: String, surname: String, phoneNumber: String)?
+    
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let customButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(customButtonTapped))
+            
+            // Добавляем кнопку в правую часть панели навигации
+            navigationItem.rightBarButtonItem = customButton
+        
+//        selectedContact = (self., "Doe", "123456789")
+
         
         
         messageStackView.layer.cornerRadius = 5
@@ -42,6 +52,20 @@ class ViewController: UIViewController {
         undoDeleteButton.layer.cornerRadius = 5
         deleteContactButton.layer.cornerRadius = 5
         
+    }
+    
+//    func getName(contactName: String) -> String? {
+//        guard let components = fullNameText?.split(separator: " ") else { return nil }
+//        let name = "\(components[0])"
+//        contactName = name
+//
+//    }
+    
+    @objc func customButtonTapped() {
+        // Логика для нажатия на кнопку
+        print("Custom button tapped!")
+        
+        editInfo()
     }
     
     override func viewDidLayoutSubviews() {
@@ -105,9 +129,52 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func editActionPressed(_ sender: Any) {
-    }
+    func editInfo() {
+        let alertController = UIAlertController(title: "Edit Contact", message: nil, preferredStyle: .alert)
+                
+                // Добавляем текстовые поля
+                alertController.addTextField { textField in
+                    textField.placeholder = "Name"
+                    textField.text = self.fullNameText // Подставляем имя контакта
+                }
+                
+                alertController.addTextField { textField in
+                    textField.placeholder = "Surname"
+                    textField.text = self.fullNameText // Подставляем фамилию контакта
+                }
+                
+                alertController.addTextField { textField in
+                    textField.placeholder = "Phone Number"
+                    textField.text = self.phoneNumberText // Подставляем номер контакта
+                }
+
+                // Добавляем кнопку "Save"
+                let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+                    // Получаем введенные данные
+                    if let name = alertController.textFields?[0].text,
+                       let surname = alertController.textFields?[1].text,
+                       let phoneNumber = alertController.textFields?[2].text {
+                        
+                        // Обновляем данные контакта (например, в вашем массиве контактов или базе данных)
+                        self.selectedContact = (name, surname, phoneNumber)
+                        
+                        // Можете выполнить другие действия, например, сохранить контакт
+                        print("Updated contact: \(name) \(surname), Phone: \(phoneNumber)")
+                    }
+                }
+
+                // Добавляем кнопку "Cancel"
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+                // Добавляем действия в UIAlertController
+                alertController.addAction(saveAction)
+                alertController.addAction(cancelAction)
+
+                // Показываем alert
+                present(alertController, animated: true, completion: nil)
+            }
+        }
     
 
-}
+
 

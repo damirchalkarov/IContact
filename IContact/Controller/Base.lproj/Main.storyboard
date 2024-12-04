@@ -277,14 +277,6 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frE-wR-e2X">
-                                <rect key="frame" x="350.66666666666669" y="59" width="53.333333333333314" height="34.333333333333343"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Edit"/>
-                                <connections>
-                                    <action selector="editActionPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nWe-kS-EUp"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -292,8 +284,6 @@
                             <constraint firstItem="8XJ-zL-oou" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="A7V-Li-iZq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8XJ-zL-oou" secondAttribute="trailing" constant="16" id="C6H-H8-PEt"/>
                             <constraint firstItem="8XJ-zL-oou" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Kvq-sF-hII"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="frE-wR-e2X" secondAttribute="trailing" constant="26" id="WFY-bv-f3r"/>
-                            <constraint firstItem="frE-wR-e2X" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="cwl-aH-81u"/>
                         </constraints>
                     </view>
                     <connections>
