@@ -95,8 +95,8 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z1T-KH-7v3" userLabel="Second View">
                                                         <rect key="frame" x="134.66666666666666" y="0.0" width="128.99999999999997" height="129"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TaL-Ik-rje">
-                                                                <rect key="frame" x="16" y="16" width="97" height="97"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AA" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TaL-Ik-rje">
+                                                                <rect key="frame" x="25" y="25" width="79" height="79"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -105,10 +105,10 @@
                                                         <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="z1T-KH-7v3" secondAttribute="height" id="5RP-Em-FpN"/>
-                                                            <constraint firstItem="TaL-Ik-rje" firstAttribute="top" secondItem="z1T-KH-7v3" secondAttribute="top" constant="16" id="Gg5-Uf-Kdv"/>
-                                                            <constraint firstItem="TaL-Ik-rje" firstAttribute="leading" secondItem="z1T-KH-7v3" secondAttribute="leading" constant="16" id="Gxx-c5-L2R"/>
-                                                            <constraint firstAttribute="bottom" secondItem="TaL-Ik-rje" secondAttribute="bottom" constant="16" id="Mio-ON-VWt"/>
-                                                            <constraint firstAttribute="trailing" secondItem="TaL-Ik-rje" secondAttribute="trailing" constant="16" id="xMR-be-tn2"/>
+                                                            <constraint firstItem="TaL-Ik-rje" firstAttribute="top" secondItem="z1T-KH-7v3" secondAttribute="top" constant="25" id="Gg5-Uf-Kdv"/>
+                                                            <constraint firstItem="TaL-Ik-rje" firstAttribute="leading" secondItem="z1T-KH-7v3" secondAttribute="leading" constant="25" id="Gxx-c5-L2R"/>
+                                                            <constraint firstAttribute="bottom" secondItem="TaL-Ik-rje" secondAttribute="bottom" constant="25" id="Mio-ON-VWt"/>
+                                                            <constraint firstAttribute="trailing" secondItem="TaL-Ik-rje" secondAttribute="trailing" constant="25" id="xMR-be-tn2"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -291,7 +291,7 @@
                         <outlet property="deleteContactButton" destination="yhM-XG-PHh" id="1WR-GT-hwg"/>
                         <outlet property="fullNameLabel" destination="gPX-HL-emd" id="kQa-Ta-jko"/>
                         <outlet property="initialsContainerView" destination="z1T-KH-7v3" id="xmH-1k-rDn"/>
-                        <outlet property="initialsLabel" destination="TaL-Ik-rje" id="pLR-ig-opS"/>
+                        <outlet property="initialsLabel" destination="TaL-Ik-rje" id="Hbr-Ze-dU3"/>
                         <outlet property="mailStackView" destination="0VV-wp-auo" id="03m-Fz-WEn"/>
                         <outlet property="messageStackView" destination="dVE-ED-aiZ" id="cCq-KL-xLw"/>
                         <outlet property="phoneNumberButton" destination="Cd5-dM-ve9" id="BBh-HY-oD6"/>

@@ -47,16 +47,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let customButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
-        
-        // Добавляем кнопку в правую часть панели навигации
-        navigationItem.rightBarButtonItem = customButton
-        
-        //        selectedContact = (self., "Doe", "123456789")
-        
-        
-        
+
         messageStackView.layer.cornerRadius = 5
         callStackView.layer.cornerRadius = 5
         videoStackView.layer.cornerRadius = 5
@@ -65,8 +56,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         undoDeleteButton.layer.cornerRadius = 5
         deleteContactButton.layer.cornerRadius = 5
         
-        
-        
     }
     
     func toString(number: Int) -> String {
@@ -74,12 +63,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return phoneNumber
     }
     
-    //    func getName(contactName: String) -> String? {
-    //        guard let components = fullNameText?.split(separator: " ") else { return nil }
-    //        let name = "\(components[0])"
-    //        contactName = name
-    //
-    //    }
+    
     
     @objc func editButtonTapped() {
         // Логика для нажатия на кнопку
@@ -95,6 +79,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         initialsContainerView.layer.cornerRadius = initialsContainerView.frame.height / 2
         
         fullNameLabel.text = fullNameText
+        initialsLabel.adjustsFontSizeToFitWidth = true
+        initialsLabel.minimumScaleFactor = 0.5
+        initialsLabel.lineBreakMode = .byClipping
+        initialsLabel.textAlignment = .center
         initialsLabel.text = initialsText
         phoneNumberButton.setTitle(phoneNumberText, for: .normal)
     }
@@ -168,7 +156,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func editInfo() {
         let alertController = UIAlertController(title: "Edit Contact", message: nil, preferredStyle: .alert)
         
-        guard let number = Int(phoneNumberText ?? "0") else { return }
         
         // Добавляем текстовые поля
         alertController.addTextField { textField in
