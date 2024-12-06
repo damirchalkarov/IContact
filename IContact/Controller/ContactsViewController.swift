@@ -7,7 +7,11 @@
 
 import UIKit
 
-class ContactsViewController: UIViewController {
+protocol EditInfoDelegate: AnyObject {
+    func didUpdateContact(_ updatedContact: ContactRecord, at indexPath: IndexPath)
+}
+
+class ContactsViewController: UIViewController, EditInfoDelegate {
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -29,6 +33,29 @@ class ContactsViewController: UIViewController {
         }
     }
     
+    var contacts = [ContactRecord]() // Здесь хранится список контактов
+        
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "ShowDetailSegue",
+               let destinationVC = segue.destination as? ViewController,
+               let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Передаем выбранный контакт
+                destinationVC.contact = contacts[selectedIndexPath.row]
+                destinationVC.indexPath = selectedIndexPath
+                destinationVC.delegate = self
+            }
+        }
+        
+        // Метод делегата, который будет вызываться после редактирования контакта
+        func didUpdateContact(_ contact: ContactRecord, at indexPath: IndexPath) {
+            // Обновляем контакт в массиве
+            contacts[indexPath.row] = contact
+            
+            // Обновляем таблицу
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +66,9 @@ class ContactsViewController: UIViewController {
         getContact()
         
     }
+    
+   
+    
     @IBAction func choiceSegment(_ sender: UISegmentedControl) {
         let selectedIndex = sender.selectedSegmentIndex
         
@@ -481,4 +511,41 @@ extension Array {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+// Конформируемся к протоколу EditInfoDelegate
+extension ContactsViewController: EditInfoDelegate {
+    // Метод, который будет вызван, когда контакт был обновлен
+    func didUpdateContact(_ updatedContact: ContactRecord, at indexPath: IndexPath) {
+        // Обновляем контакт в dataSource на соответствующем месте
+        dataSource[indexPath.section][indexPath.row] = updatedContact
+        
+        // Сохраняем обновления в UserDefaults или в другой источник данных, если необходимо
+        saveUpdatedContact(updatedContact, at: indexPath)
+        
+        // Обновляем таблицу
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func saveUpdatedContact(_ updatedContact: ContactRecord, at indexPath: IndexPath) {
+        // Сохраните обновленные данные в UserDefaults или в другом месте
+        let letter = Letter(rawValue: updatedContact.name.first?.lowercased() ?? "a") ?? .a
+        var contacts = getAllContactsRecords(letter: letter)
+        
+        // Обновляем контакт в массиве
+        contacts[indexPath.row] = updatedContact
+        
+        // Сохраняем обновленный массив обратно
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(contacts)
+            let userDefaults = UserDefaults.standard
+            userDefaults.setValue(encodedData, forKey: letter.key())
+        } catch {
+            print("Ошибка сохранения обновленных контактов: \(error.localizedDescription)")
+        }
+    }
+}
+
+
+
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
     
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var initialsLabel: UILabel!
@@ -29,24 +29,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var phoneNumberText: String?
     var phoneNumber: Int?
     
-    var name: String?
-    var surname: String?
-    var number: Int?
-    
     var selectedContact: (name: String, surname: String, phoneNumber: Int)?
     
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let customButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+            
+            // Добавляем кнопку в правую часть панели навигации
+            navigationItem.rightBarButtonItem = customButton
         
-        // Добавляем кнопку в правую часть панели навигации
-        navigationItem.rightBarButtonItem = customButton
-        
-        //        selectedContact = (self., "Doe", "123456789")
-        
+//        selectedContact = (self., "Doe", "123456789")
+
         
         
         messageStackView.layer.cornerRadius = 5
@@ -66,25 +62,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return phoneNumber
     }
     
-    //    func getName(contactName: String) -> String? {
-    //        guard let components = fullNameText?.split(separator: " ") else { return nil }
-    //        let name = "\(components[0])"
-    //        contactName = name
-    //
-    //    }
+//    func getName(contactName: String) -> String? {
+//        guard let components = fullNameText?.split(separator: " ") else { return nil }
+//        let name = "\(components[0])"
+//        contactName = name
+//
+//    }
     
     @objc func editButtonTapped() {
         // Логика для нажатия на кнопку
         print("Custom button tapped!")
         
         editInfo()
+        print(phoneNumber)
     }
     
     func toInteger(text: String) -> Int {
-        var custom = text
-        guard let number = Int(custom) else {return 0}
-        return number
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -102,7 +95,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             print("Номер телефона отсутствует")
             return
         }
-        
+
         // Формируем URL для звонка
         let phoneURL = "tel://\(phoneNumber)"
         if let url = URL(string: phoneURL) {
@@ -119,7 +112,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             print("Номер телефона отсутствует")
             return
         }
-        
+
         let smsURL = "sms:\(phoneNumber)"
         if let url = URL(string: smsURL) {
             if UIApplication.shared.canOpenURL(url) {
@@ -162,54 +155,57 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return String(components[1]) // Преобразуем Substring в String перед возвратом
     }
     
-    
-    
-    
-    
+   
+        
+     
+
     
     func editInfo() {
         let alertController = UIAlertController(title: "Edit Contact", message: nil, preferredStyle: .alert)
-        
-        guard let number = Int(phoneNumberText ?? "0") else {return}
-        
-        // Добавляем текстовые поля
-        alertController.addTextField { textField in
-            textField.placeholder = "Name"
-            textField.text = self.getFirstName() // Подставляем имя контакта
-        }
-        
-        alertController.addTextField { textField in
-            textField.placeholder = "Surname"
-            textField.text = self.getLastName() // Подставляем фамилию контакта
-        }
-        
-        alertController.addTextField { textField in
-            textField.placeholder = "Phone Number"
-            textField.text = self.phoneNumberText != nil ? String(self.phoneNumberText!) : ""
-            textField.keyboardType = .numberPad
-            textField.delegate = self // Установка делегата для ограничения ввода
-            
-            // Добавляем кнопку "Save"
-            let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _
-                in if let nameField = alertController.textFields?[0], let surnameField = alertController.textFields?[1], let numberField = alertController.textFields?[2] {
-                    self.name = nameField.text
-                    self.surname = surnameField.text
-                    self.number = Int(numberField.text ?? "0") // Здесь можно обновить данные в dataSource или выполнить другие действия
+                
+                // Добавляем текстовые поля
+                alertController.addTextField { textField in
+                    textField.placeholder = "Name"
+                    textField.text = self.getFirstName() // Подставляем имя контакта
                 }
+                
+                alertController.addTextField { textField in
+                    textField.placeholder = "Surname"
+                    textField.text = self.getLastName() // Подставляем фамилию контакта
+                }
+                
+                alertController.addTextField { textField in
+                    textField.placeholder = "Phone Number"
+                    textField.text = String(self.phoneNumber ?? 0)// Подставляем номер контакта
+                }
+
+                // Добавляем кнопку "Save"
+                let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+                    // Получаем введенные данные
+                    if let name = alertController.textFields?[0].text,
+                       let surname = alertController.textFields?[1].text,
+                       let phoneNumber = alertController.textFields?[2].text {
+                        
+                        // Обновляем данные контакта (например, в вашем массиве контактов или базе данных)
+//                        self.selectedContact = (name, surname, phoneNumber)
+                        
+                        // Можете выполнить другие действия, например, сохранить контакт
+                        print("Updated contact: \(name) \(surname), Phone: \(phoneNumber)")
+                    }
+                }
+
+                // Добавляем кнопку "Cancel"
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+                // Добавляем действия в UIAlertController
+                alertController.addAction(saveAction)
+                alertController.addAction(cancelAction)
+
+                // Показываем alert
+                present(alertController, animated: true, completion: nil)
             }
-            
-            // Добавляем кнопку "Cancel"
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            // Добавляем действия в UIAlertController
-            alertController.addAction(saveAction)
-            alertController.addAction(cancelAction)
-            
-            // Показываем alert
-            self.present(alertController, animated: true, completion: nil)
         }
-    }
-}
+    
 
 
 
