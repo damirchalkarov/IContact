@@ -47,6 +47,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let customButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+        
+        navigationItem.rightBarButtonItem = customButton
 
         messageStackView.layer.cornerRadius = 5
         callStackView.layer.cornerRadius = 5
