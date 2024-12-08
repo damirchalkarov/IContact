@@ -219,8 +219,28 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func deleteContactButtonTapped(_ sender: Any) {
-        
+        deleteContact()
     }
+    
+    func deleteContact() {
+        let alertController = UIAlertController(title: "Удалить контакт", message: "Вы уверены, что хотите удалить этот контакт?", preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            if let indexPath = self.contactIndexPath {
+                self.delegate?.didDeleteContact(at: indexPath)
+                self.navigationController?.popViewController(animated: true) // Возврат на предыдущую страницу
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true)
+    }
+
     
 }
 
