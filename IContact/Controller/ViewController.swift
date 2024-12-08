@@ -8,13 +8,13 @@
 import UIKit
 
 protocol ContactEditDelegate: AnyObject {
-    func didUpdateContact(_ contact: ContactRecord)
+    func didUpdateContact(_ contact: ContactRecord, at indexPath: IndexPath)
+    func didDeleteContact(at indexPath: IndexPath) // Новый метод для удаления
 }
 
 
+
 class ViewController: UIViewController, UITextFieldDelegate {
-    
-    
     
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var initialsLabel: UILabel!
@@ -40,8 +40,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var surname: String?
     var number: Int?
     
-    var selectedContact: (name: String, surname: String, phoneNumber: Int)?
-    
+    var contactIndexPath: IndexPath?
         
     weak var delegate: ContactEditDelegate?
     
@@ -66,7 +65,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let phoneNumber = String(number)
         return phoneNumber
     }
-    
     
     
     @objc func editButtonTapped() {
@@ -180,25 +178,30 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         // Добавляем кнопку "Save"
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { [weak self] _ in
+            guard let self = self else { return }
             if let nameField = alertController.textFields?[0], let surnameField = alertController.textFields?[1], let numberField = alertController.textFields?[2] {
                 self.name = nameField.text
                 self.surname = surnameField.text
-                self.number = Int(numberField.text ?? "0") // Обновляем номер телефона
-                
-                // Обновляем интерфейс
-                self.fullNameText = "\(self.name ?? "") \(self.surname ?? "")"
+                self.number = Int(numberField.text ?? "0")
+
+                let fullName = "\(self.name ?? "") \(self.surname ?? "")"
+
+                print("Сохраненные данные: имя - \(self.name ?? ""), фамилия - \(self.surname ?? ""), номер - \(self.number ?? 0)")
+
+                self.fullNameText = fullName
                 self.phoneNumberText = self.number != nil ? String(self.number!) : ""
-                // Когда сохраняются данные
+
                 if let name = self.name, let surname = self.surname, !name.isEmpty, !surname.isEmpty {
                     let initials = name.prefix(1) + surname.prefix(1)
-                    self.initialsText = initials.uppercased() // Преобразуем в верхний регистр, если нужно
+                    self.initialsText = initials.uppercased()
                 } else {
-                    self.initialsText = "?" // Если имя или фамилия пусты
+                    self.initialsText = "?"
                 }
 
-                
-                // Обновляем UI
+                let updatedContact = ContactRecord(name: fullName, number: self.number!)
+                self.delegate?.didUpdateContact(updatedContact, at: self.contactIndexPath!)
+
                 self.fullNameLabel.text = self.fullNameText
                 self.phoneNumberButton.setTitle(self.phoneNumberText, for: .normal)
             }
@@ -215,7 +218,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
 
-
+    @IBAction func deleteContactButtonTapped(_ sender: Any) {
+        
+    }
+    
 }
 
 

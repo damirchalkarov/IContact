@@ -364,6 +364,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                 viewController.fullNameText = getFullNameText(indexPath: indexPath)
                 viewController.initialsText = getInitialsText(indexPath: indexPath)
                 viewController.phoneNumberText = getPhoneNumberText(indexPath: indexPath)
+                viewController.delegate = self
+                viewController.contactIndexPath = indexPath
             } else {
                 print("Could not instantiate ViewController")
             }
@@ -480,5 +482,56 @@ extension Array {
     subscript(safe index: Int) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }
+    
+    
 }
+extension ContactsViewController: ContactEditDelegate {
+    func didUpdateContact(_ contact: ContactRecord, at indexPath: IndexPath) {
+        dataSource[indexPath.section][indexPath.row] = contact
+        
+        if isSortedBySurname {
+            dataSource = sortContactsByFirstLetter(of: .surname, contacts: dataSource.flatMap { $0 })
+        } else {
+            dataSource = sortContactsByFirstLetter(of: .name, contacts: dataSource.flatMap { $0 })
+        }
+        
+        saveAllContactsRecords()
+        tableView.reloadData()
+    }
+    
+    func didDeleteContact(at indexPath: IndexPath) {
+        dataSource[indexPath.section].remove(at: indexPath.row)
+        
+        if isSortedBySurname {
+            dataSource = sortContactsByFirstLetter(of: .surname, contacts: dataSource.flatMap { $0 })
+        } else {
+            dataSource = sortContactsByFirstLetter(of: .name, contacts: dataSource.flatMap { $0 })
+        }
+        
+        saveAllContactsRecords()
+        tableView.reloadData()
+    }
+    
+    func saveAllContactsRecords() {
+        for (sectionIndex, section) in dataSource.enumerated() {
+            let letter = Letter.allCases[sectionIndex]
+            do {
+                let encoder = JSONEncoder()
+                let encodedData = try encoder.encode(section)
+                let userDefaults = UserDefaults.standard
+                userDefaults.setValue(encodedData, forKey: letter.key())
+            } catch {
+                print("Couldn't encode contacts for section \(sectionIndex) with error: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
 
