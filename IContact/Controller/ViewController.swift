@@ -35,6 +35,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var initialsText: String?
     var phoneNumberText: String?
     var phoneNumber: Int?
+    var progress = 0.0
+    
+    var countDown: Double = 5.0
+    var timer: Timer?
     
     var name: String?
     var surname: String?
@@ -58,6 +62,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         phoneStackView.layer.cornerRadius = 5
         undoDeleteButton.layer.cornerRadius = 5
         deleteContactButton.layer.cornerRadius = 5
+        
+        progressView.isHidden = true
+        undoDeleteButton.isHidden = true
         
     }
     
@@ -204,6 +211,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
                 self.fullNameLabel.text = self.fullNameText
                 self.phoneNumberButton.setTitle(self.phoneNumberText, for: .normal)
+                
             }
         }
         
@@ -226,19 +234,58 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let alertController = UIAlertController(title: "Удалить контакт", message: "Вы уверены, что хотите удалить этот контакт?", preferredStyle: .alert)
         
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
-            guard let self = self else { return }
-            if let indexPath = self.contactIndexPath {
-                self.delegate?.didDeleteContact(at: indexPath)
-                self.navigationController?.popViewController(animated: true) // Возврат на предыдущую страницу
+            self?.startDeleteProcess()
             }
-        }
-        
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
         
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true)
+    }
+    
+    func startDeleteProcess() {
+        progressView.isHidden = false
+        undoDeleteButton.isHidden = false
+        progressView.progress = 0.0
+        
+        progress = 0.0
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            self.progress += 0.1 / self.countDown
+            self.progressView?.progress = Float(self.progress)
+            
+            if self.progress >= 1.0 {
+                timer.invalidate()
+                self.timer = nil
+                self.completeDeletion()
+            }
+        }
+        
+    }
+    
+    func completeDeletion() {
+        if let indexPath = self.contactIndexPath {
+            self.delegate?.didDeleteContact(at: indexPath)
+            self.navigationController?.popViewController(animated: true) // Возврат на предыдущую страницу
+        }
+    }
+    
+    func cancelDeletion() {
+        timer?.invalidate()
+        timer = nil
+        
+        progressView.isHidden = true
+        undoDeleteButton.isHidden = true
+
+    }
+    
+
+    
+    
+    @IBAction func undoDeleteButtonTapped(_ sender: Any) {
+        cancelDeletion()
     }
 
     
