@@ -280,10 +280,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         undoDeleteButton.isHidden = true
 
     }
-    
 
-    
-    
     @IBAction func undoDeleteButtonTapped(_ sender: Any) {
         cancelDeletion()
     }
